@@ -1,0 +1,123 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              05/18/2019 20:23:44 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "reg51.h"
+   2          #include "extern.h"
+   3          
+   4          _calendar_obj calendar;
+   5          
+   6          int temp = 0;
+   7          unsigned char smg_duan = 0;
+   8          unsigned char smg_wei = 0;
+   9          unsigned char num=0;
+  10          unsigned char SEG7[]={0xfc,0x60,0xda,0xf2,0x66,0xb6,0xbe,0xe0,0xfe,0xf6};
+  11          unsigned char SEG7POINT[]={0xfd,0x61,0xdb,0xf3,0x67,0xb7,0xbf,0xe1,0xff,0xf7};
+  12          
+  13          
+  14          
+  15          void timeread(void)
+  16          {
+  17   1        calendar.min=temp/600;  
+  18   1        calendar.sec=(temp%600)/10;
+  19   1        calendar.bms=(temp%600)%10;
+  20   1      
+  21   1      }
+  22          
+  23          void timer0()          //2ms中断
+  24          {
+  25   1        TMOD |= 0x01;
+  26   1        TL0 = 0x18;
+  27   1        TH0 = 0xFC;
+  28   1        TF0 = 0;
+  29   1        ET0=1;
+  30   1        TR0 = 1;
+  31   1      }
+  32          void RTC1()
+  33          {
+  34   1        TMOD|=0x10;
+  35   1        TH1 = 0X3c;
+  36   1        TL1 = 0xb0;
+  37   1        ET1 = 1;
+  38   1        TR1 = 1;
+  39   1      }
+  40          
+  41          void main()
+  42          {
+  43   1        timer0();
+  44   1        RTC1();
+  45   1        EA=1;
+  46   1        while(1)
+  47   1        {
+  48   2          //waitingkey();
+  49   2        }
+  50   1      }
+  51          
+  52          void intersegdisplay() interrupt 1
+  53          {
+  54   1        TMOD |= 0x01;   //设置定时器模式
+C51 COMPILER V9.56.0.0   MAIN                                                              05/18/2019 20:23:44 PAGE 2   
+
+  55   1        TL0 = 0x18;   //设置定时初值
+  56   1        TH0 = 0xFC;   //设置定时初值
+  57   1        TF0 = 0;    //清除TF0标志
+  58   1        TR0 = 1;    //定时器0开始计时
+  59   1        ET0=1;          //定时器T0中断允许
+  60   1        timeread();
+  61   1        temp++;
+  62   1        switch(smg_wei)
+  63   1        {
+  64   2          case 0:  num = 0x00;                        break;
+  65   2          case 1:  num = SEG7[calendar.min/10];       break;
+  66   2          case 2:  num = SEG7POINT[calendar.min%10];  break; 
+  67   2          case 3:  num = SEG7[calendar.sec/10];       break;
+  68   2          case 4:  num = SEG7POINT[calendar.sec%10];  break;
+  69   2          case 5:  num = SEG7[calendar.bms];          break;
+  70   2        }
+  71   1          segwrite(num,smg_wei);
+  72   1          segrefresh();
+  73   1          smg_wei++;
+  74   1          if(smg_wei==6) smg_wei=0;
+  75   1        
+  76   1      }
+  77          void INQP() interrupt 3
+  78          {
+  79   1        TMOD|=0x10;
+  80   1        TH1=0X3c;
+  81   1        TL1=0xb0;
+  82   1        TR1=1;
+  83   1        ET1=1;
+  84   1        //temp++;
+  85   1        
+  86   1      }
+  87          
+  88          //    int i = 0;
+  89          //    for(i=0;i<8;i++)
+  90          //    {
+  91          //      segwrite(SEG7[i],smg_wei);
+  92          //      segrefresh();
+  93          //      smg_wei++;
+  94          //      if(smg_wei==8)  smg_wei=0;
+  95          //    }
+  96          
+  97          //    while(1);
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    275    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     28    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

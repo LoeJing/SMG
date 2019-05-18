@@ -1,0 +1,74 @@
+C51 COMPILER V9.56.0.0   SEG                                                               05/18/2019 20:23:45 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE SEG
+OBJECT MODULE PLACED IN .\Objects\SEG.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE SEG.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\SEG.l
+                    -st) TABS(2) OBJECT(.\Objects\SEG.obj)
+
+line level    source
+
+   1          #include "reg51.h"
+   2          #include "extern.h"
+   3          
+   4          sbit SEGA0 = P2^3;
+   5          sbit SEGA1 = P2^4;
+   6          sbit SEGA2 = P2^5;
+   7          sbit STCP = P3^0;
+   8          sbit SHCP = P3^4;
+   9          sbit QS = P3^5;
+  10          
+  11          
+  12          void segwei(unsigned char num)
+  13          { 
+  14   1        SEGA0=num&0x01; 
+  15   1        SEGA1=(num&0x02)>>1; 
+  16   1        SEGA2=(num&0x04)>>2; 
+  17   1      }
+  18          
+  19          void segwrite(unsigned char duan,unsigned char wei)
+  20          {
+  21   1        unsigned char i;
+  22   1        for(i=0;i<8;i++)//先送段
+  23   1        {
+  24   2          QS=(duan>>i)&0x01;
+  25   2          SHCP=0;
+  26   2          delayus(20);
+  27   2          SHCP=1;
+  28   2        }
+  29   1          segwei(wei);//后选中位
+  30   1      }
+  31          //74HC595驱动
+  32          //数码管刷新显示
+  33          void segrefresh(void)
+  34          {
+  35   1        STCP=1;
+  36   1        delayus(20);
+  37   1        STCP=0;
+  38   1      }
+  39          
+  40          //void seginit(void)
+  41          //{
+  42          //  char i = 0;
+  43          //  for(i=0;i<6;i++)
+  44          //  {
+  45          //    segwrite(i)
+  46          //  
+  47          //  }
+  48          //}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     85    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.56.0.0   SEG                                                               05/18/2019 20:23:45 PAGE 2   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,55 @@
+C51 COMPILER V9.56.0.0   KEY                                                               05/18/2019 20:23:45 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\key.l
+                    -st) TABS(2) OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include "reg51.h"
+   2          #include "extern.h"
+   3          
+   4          sbit BUZZ = P1^0;
+   5          sbit KEY0 = P1^1;
+   6          sbit KEY1 = P1^2;
+   7          sbit KEY3 = P1^3;
+   8          
+   9          //void waitingkey(void)
+  10          //{
+  11          //  if(KEY0 == 0)
+  12          //  {
+  13          //    delayms()
+  14          //  }
+  15          
+  16          //}
+  17            
+  18          //      EA=1;
+  19          //    }
+  20          //    if(KEY == 0)
+  21          //    {
+  22          //      char i = 0;
+  23          //      EA =0;
+  24          //      for(i=0;i<6;i++)
+  25          //      {
+  26          //        segwrite(0x00,i);
+  27          //        segrefresh();
+  28          //      }
+  29          //      temp = 0;
+  30          
+  31          //    }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

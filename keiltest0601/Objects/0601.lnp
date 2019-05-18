@@ -1,0 +1,7 @@
+".\Objects\main.obj",
+".\Objects\i2c.obj",
+".\Objects\delay.obj",
+".\Objects\SEG.obj",
+".\Objects\key.obj" 
+TO ".\Objects\0601" 
+PRINT(".\Listings\0601.m51")
